@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
+import { v4 as uuidv4 } from 'uuid';
+
 // import Nav from 'react-bootstrap/Nav';
 // import { Link } from 'react-router-dom';
 // import { HashLink } from 'react-router-hash-link';
@@ -85,7 +87,7 @@ const Header = () => {
           <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
             <ul className="nav__list">
               {NAV__LINKS.map((item, index) => (
-                <li className="nav__item" key={index}>
+                <li className="nav__item" key={uuidv4()}>
                   <NavLink
                     to={item.url}
                     className={(navClass) =>

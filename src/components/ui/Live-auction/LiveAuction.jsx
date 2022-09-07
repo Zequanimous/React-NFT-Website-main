@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 import NftCard from "../Nft-card2/NftCard2";
 import { NFT__DATA } from "../../../assets/data/data.js";
+import { v4 as uuidv4 } from 'uuid';
 
 import "./live-auction.css";
+
 
 const LiveAuction = () => {
   return (
@@ -22,8 +24,8 @@ const LiveAuction = () => {
           </Col>
 
           {NFT__DATA.slice(0, 4).map((item) => (
-            <Col lg="3" md="4" sm="6" className="mb-4">
-              <NftCard key={item.id} item={item} />
+            <Col lg="3" md="4" sm="6" key={uuidv4()} className="mb-4">
+              <NftCard item={item} />
             </Col>
           ))}
         </Row>

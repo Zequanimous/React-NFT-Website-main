@@ -2,6 +2,7 @@ import React from "react";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 import { Container, Row, Col } from "reactstrap";
+import { v4 as uuidv4 } from 'uuid';
 
 import "../styles/wallet.css";
 
@@ -50,7 +51,7 @@ const Wallet = () => {
             </Col>
 
             {wallet__data.map((item, index) => (
-              <Col lg="12" md="6" sm="4" key={index} className="mb-6">
+              <Col lg="12" md="6" sm="4" key={uuidv4()} className="mb-6">
                 <div className="wallet__item">
                   <span>
                     <i className={item.icon}></i>

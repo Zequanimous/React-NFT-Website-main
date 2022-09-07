@@ -2,6 +2,7 @@ import React from "react";
 
 import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import "./footer.css";
+import { v4 as uuidv4 } from 'uuid';
 
 import { Link } from "react-router-dom";
 
@@ -86,7 +87,7 @@ const Footer = () => {
             <h5>My Account</h5>
             <ListGroup className="list__group">
               {MY__ACCOUNT.map((item, index) => (
-                <ListGroupItem key={index} className="list__item">
+                <ListGroupItem key={uuidv4()} className="list__item">
                   <Link to={item.url}> {item.display} </Link>
                 </ListGroupItem>
               ))}
@@ -108,7 +109,7 @@ const Footer = () => {
             <h5>Company</h5>
             <ListGroup className="list__group">
               {COMPANY.map((item, index) => (
-                <ListGroupItem key={index} className="list__item">
+                <ListGroupItem key={uuidv4()} className="list__item">
                   <Link to={item.url}> {item.display} </Link>
                 </ListGroupItem>
               ))}

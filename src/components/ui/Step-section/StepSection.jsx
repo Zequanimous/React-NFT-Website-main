@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 import "./step-section.css";
 
@@ -40,7 +41,7 @@ const StepSection = () => {
           </Col>
 
           {STEP__DATA.map((item, index) => (
-            <Col lg="3" md="4" sm="6" key={index} className="mb-4">
+            <Col lg="3" md="4" sm="6" key={uuidv4()} className="mb-4">
               <div className="single__step__item">
                 <span>
                   <i className={item.icon}></i>

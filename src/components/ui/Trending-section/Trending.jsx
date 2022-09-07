@@ -3,6 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 
 import { NFT__DATA } from "../../../assets/data/data";
 import "./trending.css";
+import { v4 as uuidv4 } from 'uuid';
 
 import NftCard from "../Nft-card/NftCard";
 
@@ -16,7 +17,7 @@ const Trending = () => {
           </Col>
 
           {NFT__DATA.slice(0, 8).map((item) => (
-            <Col lg="3" md="4" sm="6" key={item.id} className="mb-4">
+            <Col lg="3" md="4" sm="6" key={uuidv4()} className="mb-4">
               <NftCard item={item} />
             </Col>
           ))}

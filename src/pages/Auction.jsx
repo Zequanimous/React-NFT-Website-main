@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
@@ -86,7 +87,7 @@ const Auction = () => {
             </Col>
 
             {data?.map((item) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
+              <Col lg="3" md="4" sm="6" className="mb-4" key={uuidv4()}>
                 <NftCard2 item={item} />
               </Col>
             ))}
