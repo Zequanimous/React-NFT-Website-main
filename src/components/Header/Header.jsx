@@ -47,21 +47,23 @@ const Header = () => {
 
   const menuRef = useRef(null);
 
+  const listenerFunction = () => {
+    if (
+      document.body.scrollTop > 80 ||
+      document.documentElement.scrollTop > 80
+    ) {
+      headerRef.current.classList.add("header__shrink");
+    
+    } else {
+      headerRef.current.classList.remove("header__shrink");
+    }
+  };
+  
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
-      ) {
-        headerRef.current.classList.add("header__shrink");
-      
-      } else {
-        headerRef.current.classList.remove("header__shrink");
-      }
-    });
+    window.addEventListener("scroll", listenerFunction);
 
     return () => {
-      window.removeEventListener("scroll");
+      window.removeEventListener("scroll", listenerFunction);
     };
   }, []);
 
@@ -74,7 +76,7 @@ const Header = () => {
           <div className="logo">
             <h2 className=" d-flex gap-2 align-items-center ">
               <span>
-                <i class=""></i>
+                <i className=""></i>
               </span>
               IGNITUS NETWORKS
             </h2>
@@ -100,13 +102,13 @@ const Header = () => {
           <div className="nav__right d-flex align-items-center gap-5 ">
             <button className="btn d-flex gap-2 align-items-center">
               <span>
-                <i class="ri-wallet-line"> </i>
+                <i className="ri-wallet-line"> </i>
               </span>
               <Link to="/wallet">Connect Wallet</Link>
             </button>
 
             <span className="mobile__menu">
-              <i class="ri-menu-line" onClick={toggleMenu}></i>
+              <i className="ri-menu-line" onClick={toggleMenu}></i>
             </span>
           </div>
         </div>

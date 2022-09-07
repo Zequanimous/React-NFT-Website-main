@@ -53,7 +53,7 @@ const Wallet = () => {
               <Col lg="12" md="6" sm="4" key={index} className="mb-6">
                 <div className="wallet__item">
                   <span>
-                    <i class={item.icon}></i>
+                    <i className={item.icon}></i>
                   </span>
                   <h5>{item.title}</h5>
                   <p>{item.desc}</p>
