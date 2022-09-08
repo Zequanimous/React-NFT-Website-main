@@ -32,7 +32,12 @@ const wallet__data = [
   // },
 ];
 
-const Wallet = () => {
+const Wallet = (props) => {
+
+  const {signIn, signOut, wallet} = props.mainObject;
+
+  const state = wallet.isSignedIn();
+
   return (
     <>
       <CommonSection title="Connect Wallet" />
@@ -41,12 +46,13 @@ const Wallet = () => {
           <Row>
             {wallet__data.map((item, index) => (
               <Col lg="12" md="6" sm="4" key={uuidv4()} className="mb-6">
-                <div className="wallet__item">
+                <div className="wallet__item" onClick={state ? signOut : signIn}>
                   <span>
                     <i className={item.icon}></i>
                   </span>
                   <h5>{item.title}</h5>
                   <p>{item.desc}</p>
+                  <p>{state ? "You are logged in, click to log out" : "You are logged out, click to log in"}</p>
                 </div>
               </Col>
             ))}

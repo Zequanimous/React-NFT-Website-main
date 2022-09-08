@@ -44,7 +44,7 @@ const NAV__LINKS = [
   // },
 ];
 
-const Header = () => {
+const Header = (props) => {
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
@@ -70,6 +70,8 @@ const Header = () => {
   }, []);
 
   const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
+
+  const {accountId} = props;
 
   return (
     <header className="header" ref={headerRef}>
@@ -106,7 +108,7 @@ const Header = () => {
               <span>
                 <i className="ri-wallet-line"> </i>
               </span>
-              <Link to="/wallet">Connect Wallet</Link>
+              <Link to="/wallet">{accountId ? accountId : "Connect Wallet"}</Link>
             </button>
 
             <span className="mobile__menu">

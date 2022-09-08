@@ -16,7 +16,7 @@ import NftDetails from "../pages/NftDetails";
 
 const Routers = (props) => {
 
-  const {mainObject} = props.mainObject;
+  const {mainObject} = props;
 
   return (
     <Routes>
