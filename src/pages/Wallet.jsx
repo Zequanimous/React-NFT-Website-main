@@ -21,7 +21,7 @@ const wallet__data = [
 
   {
     title: "Near Wallet",
-    desc: "Best software cryptowallet that allows you to store both NFTs and as well as Crypto currencies. Provides security to your asset!!",
+    desc: "Currently supported wallet which stores your assets",
     icon: "ri-coin-line",
   },
 
@@ -39,17 +39,6 @@ const Wallet = () => {
       <section>
         <Container>
           <Row>
-            <Col lg="12" className="mb-5 text-center">
-              <div className="w-50 m-auto">
-                <h3 className="text-light">Connect your wallet</h3>
-                <p>
-                  Ignitus suggest's you the best crypto wallets in the market. 
-                  Wallets provides best security to all your assets and also allows you 
-                  to store you NFTs or Tokens safe with a keys!
-                </p>
-              </div>
-            </Col>
-
             {wallet__data.map((item, index) => (
               <Col lg="12" md="6" sm="4" key={uuidv4()} className="mb-6">
                 <div className="wallet__item">

@@ -2,18 +2,25 @@ import "./app.css";
 import Layout from "./components/Layout/Layout";
 
 import 'regenerator-runtime/runtime'
-import { initContract, login, logout, clearContentBody, provokeLogin} from './near/utils'
 
-import {useEffect} from "react";
+function App(props) {
+  const {nft_contract, marketplace_contract, accountId, nearConfig, wallet } = props;
+  
+  const signIn = () => {
+    wallet.requestSignIn(
+      nearConfig.contractName
+    );
+  };
 
-function App() {
+  const signOut = () => {
+    wallet.signOut();
+    window.location.replace(window.location.origin + window.location.pathname);
+  };
 
-  useEffect(()=>{
-    initContract() 
-  },[])
+  const mainObject = {nft_contract, marketplace_contract, accountId, nearConfig, wallet, signIn, signOut};
 
   return(
-    <Layout />
+    <Layout mainObject={mainObject}/>
   );
 }
 
