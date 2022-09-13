@@ -34,7 +34,7 @@ const wallet__data = [
 
 const Wallet = (props) => {
 
-  const {signIn, signOut, wallet} = props.mainObject;
+  const {signIn, signOut, wallet, accountId} = props.mainObject;
 
   const state = wallet.isSignedIn();
 
@@ -52,7 +52,7 @@ const Wallet = (props) => {
                   </span>
                   <h5>{item.title}</h5>
                   <p>{item.desc}</p>
-                  <p>{state ? "You are logged in, click to log out" : "You are logged out, click to log in"}</p>
+                  <p>{state ? "You are logged in as " + accountId + ", click to log out" : "You are logged out, click to log in"}</p>
                 </div>
               </Col>
             ))}
