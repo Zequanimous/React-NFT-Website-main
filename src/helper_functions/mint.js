@@ -61,10 +61,12 @@ async function mintListener(title, description, buffer, royaltyArray, signedIn, 
 		royalties_final[ royaltyArray[i].account ] = royaltyArray[i].percentage
 	}
 
+	// showModal here
 	// IPFS 
 	let mediaHash;
 	if(buffer){
 		mediaHash = await ipfsUpload(buffer);
+		// hideModal here
 	}
 
 	let d=new Date()
