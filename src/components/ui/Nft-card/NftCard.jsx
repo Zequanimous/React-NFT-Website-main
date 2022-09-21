@@ -19,7 +19,7 @@ const NftCard = (props) => {
     imgUrl = token.base_uri + '/' + token.metadata.media;
   }
 
-  const id = nft_contract_id + '&' + token_id;
+  const id = nft_contract_id + '/' + token_id;
   const creatorImg = avas[Math.floor(Math.random() * 6)];
 
   const [showModal, setShowModal] = useState(false);

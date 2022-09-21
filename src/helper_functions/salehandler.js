@@ -2,7 +2,7 @@ import {Contract} from "near-api-js";
 
 async function getSales(walletConnection, marketplace_contract, index=0){
 	try{
-		let limit = 9;
+		let limit = 12;	// Should be dependant on index while implementing pagination
 
 		let sales = await marketplace_contract.get_sales({ from_index: index.toString(), limit }); 
 
@@ -35,6 +35,39 @@ async function getSales(walletConnection, marketplace_contract, index=0){
 	}    
 }
 
+async function getSaleFromId(walletConnection, marketplace_contract, nft_contract_id, token_id){
+	try{
+		const delimiter = "."
+		const indexer =	nft_contract_id + delimiter + token_id
+		let sale = await marketplace_contract.get_sale({ nft_contract_token: indexer}); 
+
+		if (sale===null){
+			return null;
+		}
+
+		let contract_id = sale.nft_contract_id;
+
+		let contract = await new Contract(walletConnection.account(), contract_id, {
+		    viewMethods: ['nft_metadata', 'nft_total_supply', 'nft_tokens_for_owner', 'nft_token'],
+		    changeMethods: ['nft_mint', 'nft_transfer', 'nft_approve', 'nft_revoke'],
+		})
+		let token = await contract.nft_token({'token_id': token_id})
+		const contract_metadata = await contract.nft_metadata();
+		const base_uri = contract_metadata.base_uri;
+		Object.assign(token, {base_uri});
+		
+		return {sale, token};
+
+	}
+	catch(e){
+		alert(
+		  'Something went wrong! ' +
+		  'Maybe you need to sign out and back in? ' +
+		  'Check your browser console for more info.'
+		)
+	throw e
+	}    
+}
 
 async function buy(walletConnection, marketplace_contract, accountId, token_id, sale){
 
@@ -67,4 +100,4 @@ async function buy(walletConnection, marketplace_contract, accountId, token_id, 
 	}
 }
 
-export {buy, getSales}
+export {buy, getSales, getSaleFromId}

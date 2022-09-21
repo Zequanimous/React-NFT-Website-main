@@ -5,7 +5,7 @@ import {buy} from "../../../helper_functions/salehandler"
 const Modal = ({ setShowModal, nftProps}) => {
 
   const {title, imgUrl, priceToDisplay, near, sale} = nftProps;
-  // If needed, img can be added to the modal with src as imgUrl
+  // If needed, the img can also be shown in the modal with src as imgUrl
 
   const buyButtonListener = ()=>{
      buy(near.wallet, near.marketplaceContract, near.accountId, sale.token_id, sale);
