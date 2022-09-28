@@ -6,21 +6,7 @@ async function getSales(walletConnection, marketplace_contract, index=0){
 
 		let sales = await marketplace_contract.get_sales({ from_index: index.toString(), limit }); 
 
-		let token_ids = sales.map(sale=>sale.token_id);
-		let contracts = sales.map(sale=>sale.nft_contract_id);
-
-		let tokens=[];
-		for(let i=0;i<token_ids.length;i++){
-			let contract = await new Contract(walletConnection.account(), contracts[i], {
-			    viewMethods: ['nft_metadata', 'nft_total_supply', 'nft_tokens_for_owner', 'nft_token'],
-			    changeMethods: ['nft_mint', 'nft_transfer', 'nft_approve', 'nft_revoke'],
-			})
-			let token = await contract.nft_token({'token_id': token_ids[i]})
-			const contract_metadata = await contract.nft_metadata();
-			const base_uri = contract_metadata.base_uri;
-			Object.assign(token, {base_uri});
-			tokens.push(token);
-		}
+		let tokens= await getTokens(sales,walletConnection);
 		
 		return {sales, tokens};
 
@@ -33,6 +19,47 @@ async function getSales(walletConnection, marketplace_contract, index=0){
 		)
 	throw e
 	}    
+}
+
+async function getAuctions(walletConnection, marketplace_contract, index=0){
+	try{
+		let limit = 12;	// Should be dependant on index while implementing pagination
+
+		let auctions=await marketplace_contract.get_auctions({'from_index': index.toString(), limit }); 
+		
+		let tokens = await getTokens(auctions,walletConnection);
+		
+		return {auctions, tokens};
+	}
+	catch(e){
+		alert(
+		  'Something went wrong! ' +
+		  'Maybe you need to sign out and back in? ' +
+		  'Check your browser console for more info.'
+		)
+		throw e
+	}
+}
+
+async function getTokens(collection, walletConnection){ // collection can be sales or auctions
+	
+	let tokens=[];
+	let token_ids = collection.map(sale=>sale.token_id);
+	let contracts = collection.map(sale=>sale.nft_contract_id);
+
+	for(let i=0;i<token_ids.length;i++){
+		let contract = await new Contract(walletConnection.account(), contracts[i], {
+		    viewMethods: ['nft_metadata', 'nft_total_supply', 'nft_tokens_for_owner', 'nft_token'],
+		    changeMethods: ['nft_mint', 'nft_transfer', 'nft_approve', 'nft_revoke'],
+		})
+	  	let token = await contract.nft_token({'token_id': token_ids[i]})
+	  	const contract_metadata = await contract.nft_metadata();
+		const base_uri = contract_metadata.base_uri;
+		Object.assign(token, {base_uri});
+		tokens.push(token);
+	}
+
+	return tokens
 }
 
 async function getSaleFromId(walletConnection, marketplace_contract, nft_contract_id, token_id){
@@ -100,4 +127,4 @@ async function buy(walletConnection, marketplace_contract, accountId, token_id, 
 	}
 }
 
-export {buy, getSales, getSaleFromId}
+export {buy, getSales, getAuctions, getSaleFromId}

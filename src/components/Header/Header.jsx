@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { NavLink, Link } from "react-router-dom";
 
-const NAV__LINKS = [
+let NAV__LINKS = [
   {
     display: "Home",
     url: "/home",
@@ -72,6 +72,12 @@ const Header = (props) => {
   const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
 
   const {accountId} = props;
+
+  if(!accountId){
+    NAV__LINKS = NAV__LINKS.filter((item) =>
+      (item.display!=="Storage" && item.display!=="Tokens")
+    )
+  }
 
   return (
     <header className="header" ref={headerRef}>

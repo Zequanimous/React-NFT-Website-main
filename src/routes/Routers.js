@@ -31,7 +31,7 @@ const Routers = (props) => {
       <Route path="/mytokens" element={<MyTokens mainObject={mainObject}/>} />
       <Route path="/wallet" element={<Wallet mainObject={mainObject}/>} />
       <Route path="/market/:nftContract/:tokenId" element={<NftDetails mainObject={mainObject}/>} />
-      <Route path="/auction/:id" element={<NftDetails mainObject={mainObject}/>} />
+      <Route path="/auction/:nftContract/:tokenId" element={<NftDetails mainObject={mainObject}/>} />
 
     </Routes>
   );

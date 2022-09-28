@@ -4,14 +4,14 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 
-import LiveAuction from "../components/ui/Live-auction/LiveAuction";
-
 import "../styles/nft-details.css";
-
-import { Link } from "react-router-dom";
 
 import {avas} from "../assets/data/data"
 import {getSaleFromId, buy} from "../helper_functions/salehandler"
+import {bid, end_auction} from '../helper_functions/auctions'
+
+
+const MIN_BID_INCREMENT = 0.01;
 
 const NftDetails = (props) => {
   // redirection if transaction is successful
@@ -29,6 +29,7 @@ const NftDetails = (props) => {
   const [priceToDisplay, setPriceToDisplay] = useState('');
   const [creatorImg, setCreatorImg] = useState(avas[Math.floor(Math.random() * 6)]);
   const [imgUrl, setImgUrl] = useState('');
+  const [isAuction, setIsAuction] = useState(false);
   const [owner_id, setOwner] = useState('');
   const [desc, setDesc] = useState('');
 
@@ -42,9 +43,16 @@ const NftDetails = (props) => {
 
   const setRelevantStuff = (sale, token) =>{
     setSale(sale);
+    setIsAuction(sale.is_auction);
     setTitle(token.metadata.title);
-    setPriceToDisplay( (sale.price/(10**24)).toFixed(1) );
 
+    setPriceToDisplay( (sale.price/(10**24)).toFixed(2) );
+    if (sale.bids && sale.bids.length!=0){
+      console.log(sale.bids)
+      setPriceToDisplay( (sale.bids[0].price/(10**24)).toFixed(2) );
+      // Name of the latest bidder can also be obtained by bids[0].bidder_id
+    }
+    
     setImgUrl(token.metadata.media);
 
     if(token.base_uri){
@@ -56,6 +64,19 @@ const NftDetails = (props) => {
 
   const buyButtonListener = ()=>{
      buy(wallet, marketplaceContract, accountId, tokenId, sale);
+  }
+
+  const bidListener = () =>{
+    let bid_amount = document.querySelector('#bid_amount').value;
+    if(!bid_amount)
+      bid_amount = 0;
+    
+    bid(wallet, marketplaceContract, accountId, sale, bid_amount, priceToDisplay)
+  }
+
+  const endAuctionListener = () =>{
+    console.log('bruh');
+    end_auction(sale, wallet, marketplaceContract)
   }
 
   return (
@@ -109,17 +130,34 @@ const NftDetails = (props) => {
                 </div>
 
                 <p className="my-4">{desc}</p>
-                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={buyButtonListener}>
-                  <i className="ri-shopping-bag-line"></i>
-                  Buy for {priceToDisplay} NEAR
-                </button>
+
+                {/*Depending on if its an auction or not, either the buy button should be shown or the input, bid, endAuction button */}
+                { !isAuction 
+                  ? 
+                  <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={buyButtonListener}>
+                    <i className="ri-shopping-bag-line"></i>
+                    Buy for {priceToDisplay} NEAR
+                  </button>
+                  :
+                  <div>
+                    <div className="input__item mb-4">
+                      <input type="number" id="bid_amount" min={parseFloat(priceToDisplay)+MIN_BID_INCREMENT} step={0.01} placeholder="00 . 00 NEAR" />
+                    </div>
+                    <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={bidListener}>
+                      <i className="ri-shopping-bag-line"></i>
+                      Bid
+                    </button>
+                    <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={endAuctionListener}>
+                      <i className="ri-shopping-bag-line"></i>
+                      End_Auction
+                    </button>
+                  </div>
+                }
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-
-      <LiveAuction />
     </>
   );
 };
