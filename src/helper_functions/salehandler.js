@@ -1,8 +1,8 @@
 import {Contract} from "near-api-js";
 
-async function getSales(walletConnection, marketplace_contract, index=0){
+async function getSales(walletConnection, marketplace_contract, index=0, limit=12){
 	try{
-		let limit = 12;	// Should be dependant on index while implementing pagination
+		// let limit = 12;	// Should be dependant on index while implementing pagination
 
 		let sales = await marketplace_contract.get_sales({ from_index: index.toString(), limit }); 
 
@@ -21,9 +21,9 @@ async function getSales(walletConnection, marketplace_contract, index=0){
 	}    
 }
 
-async function getAuctions(walletConnection, marketplace_contract, index=0){
+async function getAuctions(walletConnection, marketplace_contract, index=0, limit=12){
 	try{
-		let limit = 12;	// Should be dependant on index while implementing pagination
+		// let limit = 12;	// Should be dependant on index while implementing pagination
 
 		let auctions=await marketplace_contract.get_auctions({'from_index': index.toString(), limit }); 
 		
