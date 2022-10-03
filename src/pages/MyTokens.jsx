@@ -4,7 +4,16 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 // import "./styles/terms.css"
 import { Container, Row, Col } from "reactstrap";
 
-const Mytokens = () => {
+const Mytokens = (props) => {
+
+    const {wallet, marketplaceContract, accountId} = props.mainObject;
+
+    const addContractListener = (e) =>{
+      const input = e.target.querySelector('input')
+      e.preventDefault();
+      //addContract(input.value)
+    }
+
     return (
         <>
       <CommonSection title="MY TOKENS" />
@@ -12,10 +21,16 @@ const Mytokens = () => {
         <Container>
           <Row>
             <Col lg="10" md="10" className="m-auto text-align">
-              <h2>MY TOKENS</h2>
-              {/* <p>1. This website is in public beta and there could be loss of data and digital assets while upgrading.</p> */}
-              {/* <p>2. Income Tax on digital assets in India stand at 30% at the moment. There could be a service tax of 28% also. These amounts will be deducted from the proceeds of any transaction in addition to the royalties which varies from product to product and our commission of 5%.</p> */}
-              </Col>
+              <h2>Select Collection</h2>
+              <div id='collections'>
+                
+              </div>
+              <h2> Add Collection </h2>
+              <form id='contract-form' onSubmit={addContractListener}>
+                <input type="text" placeholder="Valid Contract Id" required></input>
+                <button type="submit">Submit</button>
+              </form>
+            </Col>
           </Row>
         </Container>
       </section>
